@@ -1,0 +1,20 @@
+{
+  "name": "Monocle navigation",
+  "short_name": "MonoNav",
+  "display": "standalone",
+
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+
+  "background_color": "#3E4EB8",
+  "theme_color": "#2E3AA1",
+
+  "icons": [
+    {
+      "src": "./static/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

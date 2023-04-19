@@ -1,0 +1,34 @@
+{
+  "name": "miononav",
+  "version": "1.0.0",
+  "main": "index.tsx",
+  "repository": "https://github.com/semtexzv/MonoNav",
+  "author": "Michal Hornický <semtexzv@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "predeploy": "yarn bundle",
+    "deploy": "gh-pages -d .",
+    "bundle": "esbuild --bundle --minify --sourcemap --loader:.py=text --outfile=index.js index.tsx",
+    "serve": "esbuild --bundle --sourcemap --loader:.py=text --outfile=index.js index.tsx --servedir=."
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.52.5",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "esbuild": "^0.17.17",
+    "gh-pages": "^5.0.0"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^1.15.1",
+    "@octokit/request": "^6.2.3",
+    "@react-google-maps/api": "^2.18.1",
+    "jszip": "^3.10.1",
+    "react": "^18.2.0",
+    "react-cool-onclickoutside": "^1.7.0",
+    "react-dom": "^18.2.0",
+    "react-google-autocomplete": "^2.7.3",
+    "react-google-places-autocomplete": "^4.0.1",
+    "use-async-effect": "^2.2.7",
+    "use-places-autocomplete": "^4.0.0"
+  }
+}

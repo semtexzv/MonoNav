@@ -1,24 +1,24 @@
-import { reportUpdatePercentage } from "./main.js"
-import { replSend, replRawMode } from "./repl.js";
+// import { reportUpdatePercentage } from "./main.js"
+// import { replSend, replRawMode } from "./repl.js";
 import { isConnected } from "./bluetooth.js";
-import { request } from "https://cdn.skypack.dev/@octokit/request";
+import { request } from "@octokit/request";
 
 export let micropythonGit = {};
 export let fpgaGit = {};
 
-export async function checkForUpdates() {
-
-    await replRawMode(true);
-
-    // Short delay to throw away bluetooth data received upon connection
-    await new Promise(r => setTimeout(r, 100));
-
-    let message = await getUpdateInfo();
-
-    await replRawMode(false);
-
-    return message;
-}
+// export async function checkForUpdates() {
+//
+//     await replRawMode(true);
+//
+//     // Short delay to throw away bluetooth data received upon connection
+//     await new Promise(r => setTimeout(r, 100));
+//
+//     let message = await getUpdateInfo();
+//
+//     await replRawMode(false);
+//
+//     return message;
+// }
 
 async function getUpdateInfo() {
 

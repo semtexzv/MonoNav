@@ -3,9 +3,9 @@
 
 import { transmitNordicDfuControlData, transmitNordicDfuPacketData } from "./bluetooth.js"
 import { micropythonGit } from "./update.js";
-import { reportUpdatePercentage } from "./main.js"
-import { request } from "https://cdn.skypack.dev/@octokit/request";
-import JSZip from "https://cdn.skypack.dev/jszip"
+// import { reportUpdatePercentage } from "./main.js"
+import { request } from "@octokit/request";
+import JSZip from "jszip"
 
 let controlResponseCallback;
 

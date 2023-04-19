@@ -1,6 +1,4 @@
-import { receiveRawData, onDisconnect } from "./main.js"
-import { replHandleResponse } from "./repl.js";
-import { nordicDfuHandleControlResponse } from './nordicdfu.js'
+import {nordicDfuHandleControlResponse} from './nordicdfu.js'
 
 let device = null;
 
@@ -29,19 +27,17 @@ let replTxTaskIntervalId = null
 let replDataTxInProgress = false;
 let rawDataTxInProgress = false;
 
+let receiveCB = null;
+let disconnectCB = null
+
 // Web-Bluetooth doesn't have any MTU API, so we just set it to something reasonable
 const max_mtu = 100;
 
 export function isConnected() {
-
-    if (device && device.gatt.connected) {
-        return true;
-    }
-
-    return false;
+    return !!(device && device.gatt.connected);
 }
 
-export async function connect() {
+export async function connect(onReceiveRaw, onDisconnect) {
 
     if (!navigator.bluetooth) {
         return Promise.reject("This browser doesn't support WebBluetooth. " +
@@ -53,26 +49,33 @@ export async function connect() {
         device = await navigator.bluetooth.requestDevice({
             acceptAllDevices: true
         });
-    }
-    else {
+    } else {
         device = await navigator.bluetooth.requestDevice({
             filters: [
-                { services: [replDataServiceUuid] },
-                { services: [nordicDfuServiceUuid] },
+                {services: [replDataServiceUuid]},
+                {services: [nordicDfuServiceUuid]},
             ],
             optionalServices: [rawDataServiceUuid]
         });
     }
 
+    receiveCB = onReceiveRaw;
+    disconnectCB = onDisconnect;
+
     const server = await device.gatt.connect()
     device.addEventListener('gattserverdisconnected', disconnect);
 
     const nordicDfuService = await server.getPrimaryService(nordicDfuServiceUuid)
-        .catch(() => { });
+        .catch(() => {
+        });
+
     const replService = await server.getPrimaryService(replDataServiceUuid)
-        .catch(() => { });
+        .catch(() => {
+        });
+
     const rawDataService = await server.getPrimaryService(rawDataServiceUuid)
-        .catch(() => { });
+        .catch(() => {
+        });
 
     if (nordicDfuService) {
         nordicDfuControlCharacteristic = await nordicDfuService.getCharacteristic(nordicDfuControlCharacteristicUUID);
@@ -94,7 +97,14 @@ export async function connect() {
         rawDataRxCharacteristic = await rawDataService.getCharacteristic(rawDataRxCharacteristicUuid);
         rawDataTxCharacteristic = await rawDataService.getCharacteristic(rawDataTxCharacteristicUuid);
         await rawDataTxCharacteristic.startNotifications();
-        rawDataTxCharacteristic.addEventListener('characteristicvaluechanged', receiveRawData);
+        rawDataTxCharacteristic.addEventListener('characteristicvaluechanged', (event) => {
+            const decoder = new TextDecoder('utf-8');
+
+            const decoded = decoder.decode(event.target.value)
+            console.log("RAW", decoded);
+            receiveCB(decoded);
+
+        });
     }
 
     return Promise.resolve("repl connected");
@@ -106,11 +116,12 @@ export async function disconnect() {
         await device.gatt.disconnect();
     }
 
+    receiveCB = null;
+
     // Stop transmitting data
     clearInterval(replTxTaskIntervalId);
 
-    // Callback to main.js
-    onDisconnect();
+    disconnectCB ? disconnectCB() : null;
 }
 
 function receiveNordicDfuControlData(event) {
@@ -126,11 +137,11 @@ export async function transmitNordicDfuPacketData(bytes) {
 }
 
 function receiveReplData(event) {
-
     // Decode the byte array into a UTF-8 string
     const decoder = new TextDecoder('utf-8');
 
-    replHandleResponse(decoder.decode(event.target.value));
+    const decoded = decoder.decode(event.target.value)
+    console.log('REPL ', decoded)
 }
 
 async function transmitReplData() {
@@ -158,8 +169,7 @@ async function transmitReplData() {
 
             if (error == "NetworkError: GATT operation already in progress.") {
                 // Ignore busy errors. Just wait and try again later
-            }
-            else {
+            } else {
                 // Discard data on other types of error
                 replDataTxQueue.splice(0, payload.length);
                 replDataTxInProgress = false;

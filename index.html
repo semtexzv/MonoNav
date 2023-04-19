@@ -5,70 +5,22 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="viewport-fit=cover initial-scale=1.0, maximum-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/keyboard.css">
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon" />
 
-    <!-- SEO title & description -->
-    <title>MicroPython Web REPL | Silicon Witchery</title>
-    <meta name="description"
-        content="Web Bluetooth based REPL for MicroPython running on Silicon Witchery FPGA modules.">
-    <link rel="canonical" href="https://repl.siliconwitchery.com" />
+    <title>MonoNav</title>
 
-    <!-- Facebook & Twitter card meta -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@SiliconWitchery" />
-    <meta property="og:title" content="MicroPython Web REPL | Silicon Witchery" />
-    <meta property="og:description"
-        content="Web Bluetooth based REPL for MicroPython running on Silicon Witchery FPGA modules." />
-    <meta property="og:image" content="https://repl.siliconwitchery.com/images/share.png" />
-    <meta property="og:url" content="https://repl.siliconwitchery.com" />
-    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="manifest" href="./static/manifest.json">
+    <link rel="icon" type="image/png" href="./static/icon.png">
 
-    <!-- Import javascript -->
-    <script type="module" src="./js/main.js"></script>
-    <script type="module" src="./js/keyboard.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+    <meta name="description" content="Navigation app for BrilliantLabs Monocle">
+    <meta property="og:type" content="website"/>
 
+    <script type="module" src="./index.js"></script>
 </head>
 
+
 <body>
-
-    <textarea type="text" id="replConsole" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-        inputmode="none"></textarea>
-
-    <p id="infoText">MicroPython Web REPL by <a href="https://www.siliconwitchery.com" target="_blank">Silicon
-            Witchery</a> © 2023</p>
-
-    <div class=" buttons">
-        <button id="ctrlAButton" name="controlButton" title="Raw REPL mode">
-            Ctrl-A
-        </button>
-        <button id="ctrlBButton" name="controlButton" title="Friendly REPL mode">
-            Ctrl-B
-        </button>
-        <button id="ctrlCButton" name="controlButton" title="Clear line / Exit paste mode">
-            Ctrl-C
-        </button>
-        <button id="ctrlDButton" name="controlButton" title="Reset / Run Pasted code">
-            Ctrl-D
-        </button>
-        <button id="ctrlEButton" name="controlButton" title="Paste mode">
-            Ctrl-E
-        </button>
-        <button id="clearButton" name="controlButton" title="Clear entire terminal (Ctrl-K)">
-            Clear
-        </button>
-        <button onclick="uploadButton.click()" title="Upload custom FPGA image">
-            <input type="file" id="uploadButton" onclick="this.value=null;" onchange="updateFpgaFromFile(this)">Upload
-        </button>
-    </div>
-
-    <div class="keyboard">
-        <div class="simple-keyboard"></div>
-    </div>
-
+<div id="root"></div>
 </body>
 
 </html>
