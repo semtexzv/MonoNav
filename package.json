@@ -9,7 +9,7 @@
     "predeploy": "yarn bundle",
     "deploy": "gh-pages -d .",
     "bundle": "esbuild --bundle --minify --sourcemap --loader:.py=text --outfile=index.js index.tsx",
-    "serve": "esbuild --bundle --sourcemap --loader:.py=text --outfile=index.js index.tsx --servedir=."
+    "serve": "esbuild --bundle --minify --sourcemap --loader:.py=text --outfile=index.js index.tsx --servedir=."
   },
   "devDependencies": {
     "@types/google.maps": "^3.52.5",

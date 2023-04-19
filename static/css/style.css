@@ -60,6 +60,10 @@ textarea, input {
     background-color: var(--bg-color);
 }
 
+.pac-item-query {
+    color: var(--text-color);
+}
+
 p {
     font-size: small;
     padding: 1rem 2.3rem;
@@ -133,12 +137,10 @@ button:disabled {
     /*    height: 0;*/
     /*    padding: 0;*/
     /*}*/
-
     /*button {*/
     /*    font-size: x-small;*/
     /*    width: 5rem;*/
     /*}*/
-
     /*.keyboard {*/
     /*    height: 20rem;*/
     /*}*/
